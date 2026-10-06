@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEMYAN AI (D-AI) — Интеллект Нового Поколения & Чат</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts: Syne & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandBlack: '#000000',
+            brandDark: '#070707',
+            brandCard: 'rgba(14, 14, 14, 0.72)',
+            brandGold: '#FFDD00',
+            brandGoldHover: '#FFE633',
+            brandGoldGlow: 'rgba(255, 221, 0, 0.35)',
+            glassBorder: 'rgba(255, 255, 255, 0.12)',
+            glassBorderGold: 'rgba(255, 221, 0, 0.45)',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Syne', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Liquid Glass Morphism Aesthetics */
+    .liquid-glass {
+      background: radial-gradient(130% 100% at 0% 0%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.02) 65%), rgba(9, 9, 9, 0.72);
+      backdrop-filter: blur(30px) saturate(200%);
+      -webkit-backdrop-filter: blur(30px) saturate(200%);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      box-shadow: 0 20px 45px 0 rgba(0, 0, 0, 0.75), 
+                  inset 0 1px 1px 0 rgba(255, 255, 255, 0.3),
+                  inset 0 -1px 20px 0 rgba(255, 221, 0, 0.05);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .liquid-glass-subtle {
+      background: rgba(18, 18, 18, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .liquid-glass-active {
+      border: 1px solid rgba(255, 221, 0, 0.75) !important;
+      background: radial-gradient(130% 100% at 0% 0%, rgba(255, 221, 0, 0.18) 0%, rgba(12, 12, 12, 0.8)) !important;
+      box-shadow: 0 0 35px rgba(255, 221, 0, 0.28), inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
+    }
+
+    /* Ambient Liquid Animated Light Spheres */
+    .liquid-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.38;
+      animation: floatLiquid 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatLiquid {
+      0% { transform: translate(0px, 0px) scale(1); }
+      50% { transform: translate(60px, 45px) scale(1.12); }
+      100% { transform: translate(-50px, 25px) scale(0.96); }
+    }
+
+    /* Specular Text Shimmer */
+    .gold-specular-text {
+      background: linear-gradient(120deg, #FFFFFF 0%, #FFDD00 45%, #FFF199 75%, #FFFFFF 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textShine 7s linear infinite;
+    }
+
+    @keyframes textShine {
+      to { background-position: 200% center; }
+    }
+
+    /* Chat bubble styles */
+    .chat-bubble-ai {
+      background: radial-gradient(120% 100% at 0% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(20, 20, 20, 0.75) 100%);
+      border: 1px solid rgba(255, 221, 0, 0.22);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-bubble-user {
+      background: radial-gradient(120% 100% at 100% 0%, rgba(255, 221, 0, 0.18) 0%, rgba(25, 22, 10, 0.75) 100%);
+      border: 1px solid rgba(255, 221, 0, 0.45);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+    }
+
+    /* Custom liquid scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #000000;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 221, 0, 0.35);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #FFDD00;
+    }
+
+    .prose-ai p {
+      margin-bottom: 0.65rem;
+      line-height: 1.65;
+    }
+    .prose-ai p:last-child {
+      margin-bottom: 0;
+    }
+    .prose-ai code {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0.15rem 0.4rem;
+      border-radius: 0.35rem;
+      color: #FFDD00;
+      font-size: 0.88em;
+    }
+    .prose-ai pre {
+      background: #050505;
+      border: 1px solid rgba(255, 221, 0, 0.25);
+      padding: 0.85rem;
+      border-radius: 0.75rem;
+      overflow-x: auto;
+      margin: 0.65rem 0;
+    }
+  </style>
+</head>
+<body class="bg-brandBlack text-white font-sans antialiased overflow-x-hidden selection:bg-brandGold selection:text-black">
+
+  <!-- Ambient Light Elements -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+    <div class="liquid-orb w-[580px] h-[580px] bg-brandGold/25 top-[-120px] left-[-80px]" style="animation-duration: 22s;"></div>
+    <div class="liquid-orb w-[650px] h-[650px] bg-yellow-500/15 top-[28%] right-[-150px]" style="animation-duration: 26s; animation-delay: -4s;"></div>
+    <div class="liquid-orb w-[600px] h-[600px] bg-white/10 bottom-[-100px] left-[20%]" style="animation-duration: 20s; animation-delay: -10s;"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:24px_24px] opacity-45"></div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 px-3 sm:px-8 py-3.5 transition-all duration-300">
+    <div class="max-w-7xl mx-auto liquid-glass rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brandGold to-yellow-600 flex items-center justify-center shadow-lg shadow-brandGold/20 group-hover:scale-105 transition-transform">
+          <span class="font-display font-extrabold text-black text-xl tracking-tight">D</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display font-bold text-base sm:text-lg tracking-wider text-white flex items-center gap-1.5">
+            DEMYAN <span class="text-brandGold">AI</span>
+            <span class="text-[9px] bg-brandGold/20 text-brandGold border border-brandGold/40 px-1.5 py-0.5 rounded-full uppercase tracking-widest font-semibold">D-AI</span>
+          </span>
+          <span class="text-[9px] uppercase tracking-widest text-zinc-400 font-medium hidden sm:inline">Neural Ecosystem</span>
+        </div>
+      </a>
+
+      <!-- Navigation links -->
+      <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-zinc-300">
+        <a href="#chat" class="hover:text-brandGold transition-colors flex items-center gap-1.5 text-brandGold font-semibold">
+          <i class="fa-solid fa-comments text-xs"></i>
+          <span>Чат с D-AI</span>
+        </a>
+        <a href="#features" class="hover:text-brandGold transition-colors">Возможности</a>
+        <a href="#models" class="hover:text-brandGold transition-colors">Модели (5)</a>
+        <a href="#studio" class="hover:text-brandGold transition-colors">Студия</a>
+        <a href="#offline" class="hover:text-brandGold transition-colors">ОЛР (Офлайн)</a>
+        <a href="#pricing" class="hover:text-brandGold transition-colors">Тарифы</a>
+      </nav>
+
+      <!-- Right Action Toolbar: Gemini API Key & Quick Launch -->
+      <div class="flex items-center gap-2.5 sm:gap-3">
+        <!-- Gemini Key Trigger Button -->
+        <button onclick="openApiKeyModal()" id="apiKeyBadgeBtn" class="liquid-glass-subtle px-3 sm:px-4 py-2 rounded-full text-xs font-semibold text-zinc-200 hover:text-white hover:border-brandGold transition-all flex items-center gap-2 group">
+          <span class="text-brandGold text-sm">✦</span>
+          <span class="hidden sm:inline">Ключ Gemini</span>
+          <span id="apiKeyStatusDot" class="w-2 h-2 rounded-full bg-zinc-500"></span>
+        </button>
+
+        <a href="#chat" class="relative group overflow-hidden px-4 sm:px-5 py-2 rounded-full text-xs uppercase tracking-wider font-bold bg-brandGold text-black shadow-lg shadow-brandGold/30 hover:shadow-brandGold/50 transition-all flex items-center gap-2">
+          <span class="relative z-10">В Чат</span>
+          <i class="fa-solid fa-bolt text-xs relative z-10"></i>
+          <div class="absolute inset-0 bg-white/40 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative pt-32 pb-16 md:pt-40 md:pb-24 px-4 sm:px-6 max-w-7xl mx-auto flex flex-col items-center text-center">
+    <div class="liquid-glass px-4 py-1.5 rounded-full inline-flex items-center gap-2.5 mb-6 border border-brandGold/40">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="text-xs font-semibold tracking-wide text-zinc-200">
+        Без VPN &bull; Работает в РФ, СНГ и по всему миру &bull; Режим ОЛР 📴 &bull; ✦ Gemini API
+      </span>
+    </div>
+
+    <h1 class="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[1.08] max-w-5xl mb-6">
+      ТВОРИ С <span class="gold-specular-text">DEMYAN AI</span><br class="hidden sm:block"/>
+      БЕЗ ГРАНИЦ И СЕТИ.
+    </h1>
+
+    <p class="max-w-2xl text-base sm:text-lg text-zinc-300 font-light leading-relaxed mb-8">
+      Универсальный интеллект нового поколения. Общайся в живом чате, рисуй арты <span class="text-white font-medium">✏️</span>, создавай видео <span class="text-white font-medium">🎥</span> и музыку <span class="text-white font-medium">🎵</span>. Подключи свой API-ключ Gemini ✦ или работай локально в <span class="text-brandGold font-semibold">ОЛР</span>!
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-14">
+      <a href="#chat" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-brandGold text-black font-display font-bold text-base hover:bg-yellow-300 transition-all shadow-xl shadow-brandGold/30 flex items-center justify-center gap-3">
+        <i class="fa-solid fa-comments"></i>
+        <span>Открыть Чат с DEMYAN AI</span>
+      </a>
+      <button onclick="openApiKeyModal()" class="w-full sm:w-auto px-7 py-4 rounded-2xl liquid-glass text-white font-semibold text-base hover:text-brandGold border border-white/20 flex items-center justify-center gap-3">
+        <span class="text-brandGold font-bold">✦</span>
+        <span>Ввести API-ключ Gemini</span>
+      </button>
+    </div>
+
+    <!-- Quick stats strip -->
+    <div class="w-full grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-4xl">
+      <div class="liquid-glass p-5 rounded-2xl text-left border border-white/10">
+        <div class="text-brandGold text-2xl font-display font-extrabold mb-1">0% VPN</div>
+        <div class="text-xs text-zinc-300">Прямой доступ в России и СНГ без блокировок</div>
+      </div>
+      <div class="liquid-glass p-5 rounded-2xl text-left border border-white/10">
+        <div class="text-brandGold text-2xl font-display font-extrabold mb-1">ОЛР ✓</div>
+        <div class="text-xs text-zinc-300">Оф-Лайн Режим на собственном устройстве</div>
+      </div>
+      <div class="liquid-glass p-5 rounded-2xl text-left border border-white/10">
+        <div class="text-brandGold text-2xl font-display font-extrabold mb-1">5 Моделей</div>
+        <div class="text-xs text-zinc-300">D-AI, Electro, Fire, Strong, Water</div>
+      </div>
+      <div class="liquid-glass p-5 rounded-2xl text-left border border-white/10">
+        <div class="text-brandGold text-2xl font-display font-extrabold mb-1">✦ Gemini</div>
+        <div class="text-xs text-zinc-300">Прямая интеграция Google Gemini API</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Chat Section -->
+  <section id="chat" class="py-12 px-3 sm:px-6 max-w-6xl mx-auto">
+    <div class="liquid-glass rounded-3xl sm:rounded-[2.5rem] border border-brandGold/40 p-4 sm:p-7 shadow-2xl relative">
+      
+      <!-- Chat Header -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-white/10">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-brandGold to-yellow-600 flex items-center justify-center text-black text-2xl shadow-lg shadow-brandGold/20 font-display font-extrabold">
+            D
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="font-display font-black text-xl sm:text-2xl text-white">DEMYAN AI Chat</h2>
+              <span id="chatEngineBadge" class="text-[10px] bg-brandGold/20 text-brandGold font-bold px-2 py-0.5 rounded-full border border-brandGold/30">
+                ⭐ D-AI
+              </span>
+            </div>
+            <p class="text-xs text-zinc-400 mt-0.5 flex items-center gap-2">
+              <span id="liveStatusIndicator" class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span id="liveStatusText">Готов к диалогу &bull; Режим диалога</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Chat controls (Model switcher and Clear) -->
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- Model dropdown selector -->
+          <div class="relative">
+            <select id="chatModelSelect" onchange="changeChatModel(this.value)" class="bg-black/80 text-xs text-zinc-200 border border-white/20 rounded-xl px-3 py-2 pr-8 focus:outline-none focus:border-brandGold cursor-pointer appearance-none">
+              <option value="D-AI">⭐ D-AI (Основная)</option>
+              <option value="D-Electro">⚡ D-Electro (D-E)</option>
+              <option value="D-Fire">🔥 D-Fire (D-F)</option>
+              <option value="D-Strong">💪 D-Strong (D-S)</option>
+              <option value="D-Water">💦 D-Water (D-W)</option>
+            </select>
+            <i class="fa-solid fa-chevron-down text-[10px] text-zinc-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
+
+          <!-- Offline / Online toggle in chat -->
+          <button onclick="toggleChatOlr()" id="chatOlrBtn" class="liquid-glass-subtle px-3 py-2 rounded-xl text-xs font-semibold text-zinc-300 hover:text-white flex items-center gap-1.5">
+            <i class="fa-solid fa-plane-slash text-brandGold text-[11px]"></i>
+            <span id="chatOlrLabel">ОЛР: Вкл</span>
+          </button>
+
+          <!-- Gemini Key shortcut button -->
+          <button onclick="openApiKeyModal()" class="liquid-glass-subtle px-3 py-2 rounded-xl text-xs font-semibold text-zinc-300 hover:text-brandGold flex items-center gap-1.5" title="Настройки API Gemini">
+            <span class="text-brandGold font-bold">✦</span>
+            <span class="hidden sm:inline">Ключ</span>
+          </button>
+
+          <!-- Clear dialog button -->
+          <button onclick="clearChatHistory()" class="liquid-glass-subtle px-3 py-2 rounded-xl text-xs font-semibold text-zinc-400 hover:text-red-400 transition-colors" title="Очистить историю диалога">
+            <i class="fa-regular fa-trash-can"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Prompt Suggestions Chips -->
+      <div class="py-3 flex items-center gap-2 overflow-x-auto no-scrollbar border-b border-white/5 text-xs">
+        <span class="text-zinc-500 text-[11px] whitespace-nowrap pl-1">Быстрый старт:</span>
+        <button onclick="sendQuickPrompt('Расскажи о себе и чем отличается DEMYAN AI от других нейросетей?')" class="whitespace-nowrap px-3 py-1 rounded-full bg-white/5 hover:bg-brandGold/20 hover:text-brandGold text-zinc-300 border border-white/10 transition-colors">
+          ✨ О DEMYAN AI
+        </button>
+        <button onclick="sendQuickPrompt('Придумай концепт крутого киберпанк-арта в стиле Liquid Glass')" class="whitespace-nowrap px-3 py-1 rounded-full bg-white/5 hover:bg-brandGold/20 hover:text-brandGold text-zinc-300 border border-white/10 transition-colors">
+          ✏️ Идея для арта
+        </button>
+        <button onclick="sendQuickPrompt('Как работает режим ОЛР (Оф-Лайн Режим) без интернета?')" class="whitespace-nowrap px-3 py-1 rounded-full bg-white/5 hover:bg-brandGold/20 hover:text-brandGold text-zinc-300 border border-white/10 transition-colors">
+          📴 Про режим ОЛР
+        </button>
+        <button onclick="sendQuickPrompt('Напиши сценарий для 15-секундного кинематографичного видеоролика')" class="whitespace-nowrap px-3 py-1 rounded-full bg-white/5 hover:bg-brandGold/20 hover:text-brandGold text-zinc-300 border border-white/10 transition-colors">
+          🎥 Сценарий видео
+        </button>
+      </div>
+
+      <!-- Chat Messages Scroll Container -->
+      <div id="chatMessages" class="py-4 space-y-6 max-h-[580px] min-h-[360px] overflow-y-auto pr-1">
+        <!-- AI Welcome Message with full requested actions -->
+        <div class="flex flex-col gap-2.5 max-w-3xl" id="msg-ai-welcome">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-lg bg-brandGold text-black flex items-center justify-center text-xs font-bold font-display">
+              D
+            </div>
+            <span class="text-xs font-bold text-white">DEMYAN AI</span>
+            <span class="text-[10px] text-brandGold font-mono">D-AI (Основная)</span>
+            <span class="text-[10px] text-zinc-500">только что</span>
+          </div>
+
+          <!-- Bubble content -->
+          <div class="chat-bubble-ai rounded-2xl rounded-tl-sm p-4 text-sm text-zinc-200 prose-ai">
+            <p>Привет! 👋 Я <strong>DEMYAN AI (D-AI)</strong> — твоя персональная интеллектуальная экосистема нового поколения! 🤖</p>
+            <p>Я умею болтать на любые темы, генерировать идеи, писать код, придумывать промпты для <strong>артов ✏️</strong>, <strong>видео 🎥</strong> и <strong>музыки 🎵</strong>. Работаю <strong>без VPN</strong> по всей России, СНГ и миру, а также поддерживаю автономный <strong>Оф-Лайн Режим (ОЛР 📴)</strong>!</p>
+            <p class="text-xs text-zinc-400 border-t border-white/10 pt-2 mt-2">
+              💡 <em>Совет: Чтобы подключить мой прямой мозг Gemini ✦, нажми сверху кнопку <strong>«Ключ Gemini»</strong> и вставь свой бесплатный ключ от Google AI Studio!</em>
+            </p>
+          </div>
+
+          <!-- AI Message Toolbar (Mandatory requested buttons) -->
+          <div class="flex flex-wrap items-center gap-1.5 text-xs text-zinc-400 pl-1">
+            <!-- Копировать ответ -->
+            <button onclick="copyMessageText('msg-ai-welcome')" class="px-2.5 py-1 rounded-lg hover:bg-white/10 hover:text-white transition-colors flex items-center gap-1.5" title="Копировать ответ">
+              <i class="fa-regular fa-copy text-[11px]"></i>
+              <span class="hidden sm:inline">Копировать ответ</span>
+            </button>
+
+            <!-- Поделиться и экспортировать -->
+            <button onclick="openExportModal('msg-ai-welcome')" class="px-2.5 py-1 rounded-lg hover:bg-white/10 hover:text-white transition-colors flex items-center gap-1.5" title="Поделиться и экспортировать">
+              <i class="fa-solid fa-arrow-up-from-bracket text-[11px]"></i>
+              <span class="hidden sm:inline">Поделиться и экспортировать</span>
+            </button>
+
+            <!-- Лайк -->
+            <button onclick="toggleLike(this)" class="px-2.5 py-1 rounded-lg hover:bg-white/10 hover:text-brandGold transition-colors flex items-center gap-1" title="Нравится">
+              <i class="fa-regular fa-thumbs-up text-[11px]"></i>
+            </button>
+
+            <!-- Дизлайк -->
+            <button onclick="toggleDislike(this)" class="px-2.5 py-1 rounded-lg hover:bg-white/10 hover:text-red-400 transition-colors flex items-center gap-1" title="Не нравится">
+              <i class="fa-regular fa-thumbs-down text-[11px]"></i>
+            </button>
+
+            <!-- Доп. функции (три горизонтальные точки) -->
+            <div class="relative inline-block dropdown-parent">
+              <button onclick="toggleExtraMenu(this)" class="px-2.5 py-1 rounded-lg hover:bg-white/10 hover:text-white transition-colors flex items-center gap-1" title="Дополнительные функции">
+                <i class="fa-solid fa-ellipsis text-[12px]"></i>
+              </button>
+              <div class="hidden extra-dropdown absolute left-0 bottom-full mb-1 w-48 liquid-glass rounded-xl p-1.5 text-xs text-zinc-300 shadow-2xl z-40 border border-white/20">
+                <button onclick="speakMessage('msg-ai-welcome')" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-brandGold/20 hover:text-brandGold flex items-center gap-2">
+                  <i class="fa-solid fa-volume-high text-[11px]"></i>
+                  <span>Озвучить ответ</span>
+                </button>
+                <button onclick="regenerateLastResponse()" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-brandGold/20 hover:text-brandGold flex items-center gap-2">
+                  <i class="fa-solid fa-arrows-rotate text-[11px]"></i>
+                  <span>Перегенерировать</span>
+                </button>
+                <button onclick="showTokenDetails()" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-brandGold/20 hover:text-brandGold flex items-center gap-2">
+                  <i class="fa-solid fa-microchip text-[11px]"></i>
+                  <span>Инфо о токенах</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Input Area -->
+      <div class="pt-3 border-t border-white/10">
+        <form onsubmit="handleChatSubmit(event)" class="relative">
+          <div class="liquid-glass rounded-2xl p-2 sm:p-2.5 flex items-end gap-2 border border-white/20 focus-within:border-brandGold transition-colors">
+            
+            <textarea id="chatInputText" rows="2" placeholder="Спросите что-нибудь у DEMYAN AI или попросите сгенерировать идею..." class="w-full bg-transparent border-0 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-0 resize-none px-2 py-1 leading-relaxed max-h-32" onkeydown="handleChatKeyDown(event)"></textarea>
+
+            <div class="flex items-center gap-1.5 shrink-0 pb-1">
+              <!-- Clear draft -->
+              <button type="button" onclick="clearInputPrompt()" class="w-9 h-9 rounded-xl hover:bg-white/10 text-zinc-400 hover:text-white flex items-center justify-center transition-colors" title="Очистить ввод">
+                <i class="fa-solid fa-xmark text-sm"></i>
+              </button>
+              
+              <!-- Send button -->
+              <button type="submit" id="chatSendBtn" class="w-10 h-10 rounded-xl bg-brandGold text-black font-bold flex items-center justify-center hover:bg-yellow-300 transition-all shadow-lg shadow-brandGold/20">
+                <i class="fa-solid fa-arrow-up text-base"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Bottom micro-status bar -->
+          <div class="flex flex-wrap items-center justify-between text-[11px] text-zinc-300 px-2 mt-2">
+            <div class="flex items-center gap-2">
+              <span id="activeModelTag" class="text-brandGold font-mono font-medium">⭐ D-AI (Main)</span>
+              <span>&bull;</span>
+              <span id="apiBackendTag" class="text-zinc-400">Режим: Локальный эмулятор D-AI</span>
+            </div>
+            <div class="hidden sm:block text-zinc-400">
+              Shift + Enter для новой строки &bull; Enter для отправки
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-20 px-4 sm:px-6 max-w-7xl mx-auto relative">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="text-brandGold text-xs uppercase tracking-widest font-semibold px-3 py-1 rounded-full border border-brandGold/30 bg-brandGold/10">
+        Возможности Демьяна
+      </span>
+      <h2 class="font-display font-extrabold text-3xl sm:text-5xl tracking-tight text-white mt-4 mb-4">
+        Всё, что нужно для творчества
+      </h2>
+      <p class="text-zinc-400 text-sm sm:text-base">
+        DEMYAN AI объединяет общение, визуальный, динамический и звуковой синтез в одной среде.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Feature 1: Art -->
+      <div class="liquid-glass p-8 rounded-3xl relative overflow-hidden group">
+        <div class="w-14 h-14 rounded-2xl bg-brandGold/15 border border-brandGold/30 flex items-center justify-center text-2xl text-brandGold mb-6 group-hover:scale-110 transition-transform">
+          ✏️
+        </div>
+        <h3 class="font-display font-bold text-xl text-white mb-2">Генерация Артов</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-4">
+          Сверхдетализированные иллюстрации, концепт-арты, гиперреалистичные портреты и логотипы в разрешении до 8K за считанные секунды.
+        </p>
+        <div class="text-xs font-semibold text-brandGold flex items-center gap-1">
+          <span>Поддержка стилей: 120+</span>
+          <i class="fa-solid fa-arrow-trend-up text-[10px]"></i>
+        </div>
+      </div>
+
+      <!-- Feature 2: Video -->
+      <div class="liquid-glass p-8 rounded-3xl relative overflow-hidden group">
+        <div class="w-14 h-14 rounded-2xl bg-brandGold/15 border border-brandGold/30 flex items-center justify-center text-2xl text-brandGold mb-6 group-hover:scale-110 transition-transform">
+          🎥
+        </div>
+        <h3 class="font-display font-bold text-xl text-white mb-2">Кинематографичное Видео</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-4">
+          Создание полноценных роликов, видеоклипов и анимаций по текстовому описанию со стабильной физикой и рендером в 60 FPS.
+        </p>
+        <div class="text-xs font-semibold text-brandGold flex items-center gap-1">
+          <span>Режимы: 24 / 30 / 60 FPS</span>
+          <i class="fa-solid fa-film text-[10px]"></i>
+        </div>
+      </div>
+
+      <!-- Feature 3: Music -->
+      <div class="liquid-glass p-8 rounded-3xl relative overflow-hidden group">
+        <div class="w-14 h-14 rounded-2xl bg-brandGold/15 border border-brandGold/30 flex items-center justify-center text-2xl text-brandGold mb-6 group-hover:scale-110 transition-transform">
+          🎵
+        </div>
+        <h3 class="font-display font-bold text-xl text-white mb-2">Генерация Музыки</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-4">
+          Создание оригинальных треков, битов, саундтреков и вокальных композиций в любых жанрах от киберпанка до классической симфонии.
+        </p>
+        <div class="text-xs font-semibold text-brandGold flex items-center gap-1">
+          <span>Stereo Hi-Fi 320kbps</span>
+          <i class="fa-solid fa-waveform-lines text-[10px]"></i>
+        </div>
+      </div>
+
+      <!-- Feature 4: No VPN -->
+      <div class="liquid-glass p-8 rounded-3xl relative overflow-hidden md:col-span-2 group">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+          <div class="w-14 h-14 rounded-2xl bg-brandGold/15 border border-brandGold/30 flex items-center justify-center text-2xl text-brandGold">
+            🚫🌐
+          </div>
+          <span class="px-3 py-1 bg-white/10 rounded-full text-xs font-medium text-emerald-300 border border-emerald-500/30">
+            100% Доступность 24/7
+          </span>
+        </div>
+        <h3 class="font-display font-bold text-2xl text-white mb-2">Никаких VPN и региональных блокировок</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed max-w-2xl">
+          DEMYAN AI полностью оптимизирован для стабильной работы на всей территории России, Беларуси, Казахстана, Узбекистана и других стран мира без необходимости использования зарубежных прокси или VPN-сервисов.
+        </p>
+      </div>
+
+      <!-- Feature 5: Offline Mode Badge -->
+      <div class="liquid-glass p-8 rounded-3xl relative overflow-hidden group border-brandGold/40 bg-gradient-to-b from-brandGold/5 to-transparent">
+        <div class="w-14 h-14 rounded-2xl bg-brandGold text-black font-extrabold flex items-center justify-center text-2xl mb-4 shadow-lg shadow-brandGold/20">
+          📴
+        </div>
+        <h3 class="font-display font-bold text-xl text-white mb-2">Режим ОЛР</h3>
+        <p class="text-zinc-400 text-xs leading-relaxed mb-4">
+          Оф-Лайн Режим: запускайте сжатые нейросетевые веса локально на видеокарте или процессоре без доступа к интернету!
+        </p>
+        <div class="text-[11px] font-mono text-brandGold bg-brandGold/10 px-3 py-1.5 rounded-lg border border-brandGold/20 inline-block">
+          STATUS: OFFLINE READY ✓
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Models Section (5 Models) -->
+  <section id="models" class="py-20 px-4 sm:px-6 max-w-7xl mx-auto">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="text-brandGold text-xs uppercase tracking-widest font-semibold px-3 py-1 rounded-full border border-brandGold/30 bg-brandGold/10">
+        Семейство Архитектур
+      </span>
+      <h2 class="font-display font-extrabold text-3xl sm:text-5xl tracking-tight text-white mt-4 mb-4">
+        5 Специализированных Моделей
+      </h2>
+      <p class="text-zinc-400 text-sm sm:text-base">
+        Переключайтесь между моделями прямо в чате или запускайте генерацию в студии.
+      </p>
+    </div>
+
+    <!-- Models Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      
+      <!-- Card 1: D-AI (Main) -->
+      <div onclick="selectModelEverywhere('D-AI')" class="liquid-glass p-6 rounded-3xl cursor-pointer hover:border-brandGold transition-all flex flex-col justify-between group relative overflow-hidden">
+        <div class="absolute top-0 right-0 px-3 py-1 bg-brandGold text-black text-[10px] font-black uppercase rounded-bl-xl">
+          Флагман
+        </div>
+        <div>
+          <div class="text-3xl mb-4 group-hover:scale-110 transition-transform">⭐</div>
+          <h3 class="font-display font-bold text-xl text-white flex items-center gap-1.5">
+            D-AI <span class="text-brandGold text-xs">(Main)</span>
+          </h3>
+          <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+            Основная флагманская модель. Баланс ультра-качества генерации артов, текста, кинематографичного видео и музыки.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-brandGold font-semibold">
+          <span>Выбрать для чата</span>
+          <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        </div>
+      </div>
+
+      <!-- Card 2: D-Electro -->
+      <div onclick="selectModelEverywhere('D-Electro')" class="liquid-glass p-6 rounded-3xl cursor-pointer hover:border-brandGold transition-all flex flex-col justify-between group">
+        <div>
+          <div class="text-3xl mb-4 group-hover:scale-110 transition-transform">⚡️️</div>
+          <h3 class="font-display font-bold text-xl text-white">D-Electro</h3>
+          <span class="text-[11px] font-mono text-yellow-300">(D-E)</span>
+          <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+            Сверхбыстрая молниеносная реакция. Моментальные драфты изображений, генерация битов и мгновенные ответы.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-brandGold font-semibold">
+          <span>0.4 сек / ответ</span>
+          <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        </div>
+      </div>
+
+      <!-- Card 3: D-Fire -->
+      <div onclick="selectModelEverywhere('D-Fire')" class="liquid-glass p-6 rounded-3xl cursor-pointer hover:border-brandGold transition-all flex flex-col justify-between group">
+        <div>
+          <div class="text-3xl mb-4 group-hover:scale-110 transition-transform">🔥</div>
+          <h3 class="font-display font-bold text-xl text-white">D-Fire</h3>
+          <span class="text-[11px] font-mono text-orange-400">(D-F)</span>
+          <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+            Креативный взрыв. Нестандартные художественные концепты, экспрессивная музыка и драйвовый монтаж.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-brandGold font-semibold">
+          <span>Творческий буст</span>
+          <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        </div>
+      </div>
+
+      <!-- Card 4: D-Strong -->
+      <div onclick="selectModelEverywhere('D-Strong')" class="liquid-glass p-6 rounded-3xl cursor-pointer hover:border-brandGold transition-all flex flex-col justify-between group">
+        <div>
+          <div class="text-3xl mb-4 group-hover:scale-110 transition-transform">💪</div>
+          <h3 class="font-display font-bold text-xl text-white">D-Strong</h3>
+          <span class="text-[11px] font-mono text-amber-300">(D-S)</span>
+          <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+            Тяжёлые вычисления и глубокая детализация. Рендер 4K/8K, многослойный синтез сцен и сложных оркестровок.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-brandGold font-semibold">
+          <span>Deep Compute</span>
+          <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        </div>
+      </div>
+
+      <!-- Card 5: D-Water -->
+      <div onclick="selectModelEverywhere('D-Water')" class="liquid-glass p-6 rounded-3xl cursor-pointer hover:border-brandGold transition-all flex flex-col justify-between group">
+        <div>
+          <div class="text-3xl mb-4 group-hover:scale-110 transition-transform">💦</div>
+          <h3 class="font-display font-bold text-xl text-white">D-Water</h3>
+          <span class="text-[11px] font-mono text-cyan-300">(D-W)</span>
+          <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+            Плавная потоковая обработка. Бесшовные видеопереходы, текучие мелодии, эмбиент и мягкие фото-градиенты.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-brandGold font-semibold">
+          <span>Ultra-Smooth</span>
+          <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Creative Studio Section -->
+  <section id="studio" class="py-20 px-4 sm:px-6 max-w-7xl mx-auto">
+    <div class="liquid-glass rounded-[2.5rem] p-6 sm:p-10 lg:p-12 border-2 border-brandGold/30 relative">
+      
+      <!-- Studio Header -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-white/10">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brandGold/20 border border-brandGold/40 text-brandGold text-xs font-bold mb-2">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            Студия Генерации D-AI
+          </div>
+          <h2 class="font-display font-black text-2xl sm:text-4xl text-white">
+            Создание контента в реальном времени
+          </h2>
+          <p class="text-xs sm:text-sm text-zinc-400 mt-1">
+            Выберите направление (Арт, Видео, Музыка) и протестируйте нейросети D-AI.
+          </p>
+        </div>
+
+        <!-- Mode selector pills -->
+        <div class="flex flex-wrap items-center gap-2 bg-black/60 p-1.5 rounded-2xl border border-white/10" id="modeSelectorGroup">
+          <button onclick="setStudioMode('art')" id="mode-btn-art" class="px-4 py-2 rounded-xl text-xs font-semibold transition-all bg-brandGold text-black flex items-center gap-1.5 shadow-md">
+            <span>✏️ Арт</span>
+          </button>
+          <button onclick="setStudioMode('video')" id="mode-btn-video" class="px-4 py-2 rounded-xl text-xs font-semibold transition-all text-zinc-300 hover:text-white flex items-center gap-1.5">
+            <span>🎥 Видео</span>
+          </button>
+          <button onclick="setStudioMode('music')" id="mode-btn-music" class="px-4 py-2 rounded-xl text-xs font-semibold transition-all text-zinc-300 hover:text-white flex items-center gap-1.5">
+            <span>🎵 Музыка</span>
+          </button>
+          <button onclick="setStudioMode('offline')" id="mode-btn-offline" class="px-4 py-2 rounded-xl text-xs font-semibold transition-all text-zinc-300 hover:text-white flex items-center gap-1.5">
+            <span>📴 ОЛР (Офлайн)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Studio Body -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8">
+        
+        <!-- Controls Column -->
+        <div class="lg:col-span-6 flex flex-col gap-6">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label class="block text-xs uppercase tracking-wider text-zinc-400 font-bold">
+                Текстовое задание (Промпт):
+              </label>
+              <button onclick="fillPresetStudioPrompt()" class="text-[11px] text-brandGold hover:underline flex items-center gap-1">
+                <i class="fa-solid fa-arrows-rotate text-[10px]"></i> Сгенерировать идею
+              </button>
+            </div>
+            <div class="relative">
+              <textarea id="studioPromptInput" rows="4" class="w-full bg-black/70 border border-white/20 rounded-2xl p-4 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brandGold transition-all font-sans resize-none" placeholder="Опишите, что должен создать DEMYAN AI..."></textarea>
+              <div class="absolute bottom-3 right-3 text-[10px] text-zinc-400 font-mono" id="studioEngineStatusBadge">
+                Status: Ready
+              </div>
+            </div>
+          </div>
+
+          <div class="liquid-glass p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 border border-white/10">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-brandGold/20 flex items-center justify-center text-brandGold text-sm">
+                <i class="fa-solid fa-sliders"></i>
+              </div>
+              <div>
+                <div class="text-xs font-semibold text-white">Режим качества</div>
+                <div class="text-[10px] text-zinc-400" id="precisionText">Ultra Neural Synth 8K</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <span class="text-xs text-zinc-300 font-medium">Без сети (ОЛР):</span>
+              <button id="olrToggleBtn" onclick="toggleOlrSwitch()" class="w-12 h-6 bg-brandGold rounded-full p-1 relative transition-colors">
+                <div id="olrIndicator" class="w-4 h-4 bg-black rounded-full transition-transform translate-x-6"></div>
+              </button>
+            </div>
+          </div>
+
+          <button id="studioGenerateBtn" onclick="triggerStudioGeneration()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-brandGold to-yellow-400 text-black font-display font-black text-base uppercase tracking-wider hover:opacity-95 transition-all shadow-xl shadow-brandGold/20 flex items-center justify-center gap-3">
+            <i class="fa-solid fa-bolt-lightning text-lg"></i>
+            <span id="studioGenerateBtnText">Запустить генерацию D-AI</span>
+          </button>
+        </div>
+
+        <!-- Output Display Column -->
+        <div class="lg:col-span-6 flex flex-col">
+          <label class="block text-xs uppercase tracking-wider text-zinc-400 font-bold mb-2.5">
+            Результат синтеза (Live Output):
+          </label>
+
+          <div class="liquid-glass rounded-3xl p-5 flex-1 flex flex-col justify-between border border-white/15 min-h-[340px] relative overflow-hidden bg-black/60" id="studioPreviewContainer">
+            
+            <!-- Generation Loading Overlay -->
+            <div id="studioLoadingOverlay" class="hidden absolute inset-0 bg-black/85 backdrop-blur-md z-30 flex flex-col items-center justify-center p-6 text-center">
+              <div class="relative w-20 h-20 mb-4">
+                <div class="absolute inset-0 rounded-full border-4 border-brandGold/20 border-t-brandGold animate-spin"></div>
+                <div class="absolute inset-2 rounded-full border-2 border-white/20 border-b-white animate-spin" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+                <div class="absolute inset-0 flex items-center justify-center font-display font-bold text-xs text-brandGold">
+                  D-AI
+                </div>
+              </div>
+              <h4 class="font-display font-bold text-lg text-white mb-1" id="studioLoadingStageTitle">Нейросеть генерирует контент...</h4>
+              <p class="text-xs text-zinc-400 max-w-xs" id="studioLoadingSubtext">Обработка без VPN через стек D-AI</p>
+              
+              <div class="w-48 h-1.5 bg-zinc-800 rounded-full mt-4 overflow-hidden">
+                <div id="studioLoadingProgressBar" class="h-full bg-brandGold transition-all duration-300 w-1/4"></div>
+              </div>
+            </div>
+
+            <!-- Dynamic Output Preview Slot -->
+            <div id="studioOutputDisplay" class="flex-1 flex flex-col items-center justify-center text-center p-4">
+              <div class="w-full h-56 rounded-2xl bg-gradient-to-br from-yellow-950/20 via-black to-zinc-900 border border-brandGold/20 flex flex-col items-center justify-center p-6 relative overflow-hidden">
+                <div class="w-16 h-16 rounded-2xl bg-brandGold/10 border border-brandGold/30 flex items-center justify-center text-3xl mb-3 shadow-inner">
+                  ✏️
+                </div>
+                <h4 class="font-display font-bold text-white text-base">«Золотой кибернетический сокол»</h4>
+                <p class="text-xs text-zinc-400 mt-1 max-w-sm">Сгенерировано с помощью D-AI (Основная) в режиме Ultra-Detail</p>
+                <div class="mt-4 flex items-center gap-2">
+                  <span class="text-[10px] bg-brandGold text-black font-extrabold px-2.5 py-1 rounded-md">8K UHD</span>
+                  <span class="text-[10px] bg-white/10 text-white px-2 py-1 rounded-md">Без VPN</span>
+                  <span class="text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-1 rounded-md">Режим ОЛР</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4 mt-4 border-t border-white/10 flex items-center justify-between text-xs text-zinc-400">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-brandGold"></span>
+                <span id="activeStudioModelLabel" class="font-medium text-white">Модель: D-AI (Основная)</span>
+              </div>
+              <button onclick="copyStudioPrompt()" class="hover:text-brandGold transition-colors flex items-center gap-1.5">
+                <i class="fa-regular fa-copy"></i>
+                <span>Скопировать промпт</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Offline Mode Section (OLR) -->
+  <section id="offline" class="py-20 px-4 sm:px-6 max-w-7xl mx-auto">
+    <div class="liquid-glass rounded-3xl p-8 sm:p-12 border border-brandGold/30 relative overflow-hidden">
+      <div class="absolute -top-24 -right-24 w-80 h-80 bg-brandGold/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-7">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brandGold text-black text-xs font-black uppercase tracking-wider mb-4">
+            <i class="fa-solid fa-plane-slash"></i>
+            ОЛР — Оф-Лайн Режим
+          </div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-5xl text-white tracking-tight mb-4">
+            Работает даже когда мир отключен от сети
+          </h2>
+          <p class="text-zinc-300 text-sm sm:text-base leading-relaxed mb-6">
+            Забудьте о блокировках и требованиях к непрерывному интернет-соединению. <strong class="text-brandGold font-semibold">DEMYAN AI</strong> умеет запускаться локально в режиме ОЛР без обращения к внешним серверам.
+          </p>
+
+          <div class="space-y-3.5">
+            <div class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-brandGold/20 flex items-center justify-center text-brandGold text-xs mt-0.5">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="text-sm text-zinc-300">
+                <strong class="text-white">Локальный инференс:</strong> квантованные веса 4-bit и 8-bit работают на вашем железе.
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-brandGold/20 flex items-center justify-center text-brandGold text-xs mt-0.5">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="text-sm text-zinc-300">
+                <strong class="text-white">100% Конфиденциальность:</strong> ваши запросы и генерации не отправляются в облако.
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-brandGold/20 flex items-center justify-center text-brandGold text-xs mt-0.5">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="text-sm text-zinc-300">
+                <strong class="text-white">Автономный чат и эскизы:</strong> диалог и генерация работают в самолёте или поезде.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="liquid-glass rounded-2xl p-6 border border-white/20 bg-black/80 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+              <span class="font-mono text-xs text-brandGold flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-brandGold animate-ping"></span>
+                DEMYAN_OFFLINE_CORE
+              </span>
+              <span class="text-[11px] bg-brandGold/20 text-brandGold px-2 py-0.5 rounded font-mono font-bold">ОЛР v2.4</span>
+            </div>
+
+            <div class="space-y-3 font-mono text-xs">
+              <div>
+                <div class="flex justify-between text-zinc-400 mb-1">
+                  <span>Модель в памяти (VRAM)</span>
+                  <span class="text-white">D-AI Local INT8</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+                  <div class="bg-brandGold h-full w-[82%]"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-zinc-400 mb-1">
+                  <span>Сетевой статус</span>
+                  <span class="text-emerald-400 font-bold">ОФЛАЙН (0 КБ/с)</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+                  <div class="bg-emerald-500 h-full w-[100%]"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-xs text-zinc-300 flex items-center gap-3">
+              <i class="fa-solid fa-shield-halved text-2xl text-brandGold"></i>
+              <span>Защищенный локальный контейнер активен. Полная независимость от провайдеров.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="py-20 px-4 sm:px-6 max-w-7xl mx-auto">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="text-brandGold text-xs uppercase tracking-widest font-semibold px-3 py-1 rounded-full border border-brandGold/30 bg-brandGold/10">
+        Тарифные Планы
+      </span>
+      <h2 class="font-display font-extrabold text-3xl sm:text-5xl tracking-tight text-white mt-4 mb-4">
+        Доступность для каждого
+      </h2>
+      <p class="text-zinc-400 text-sm sm:text-base">
+        Начните бесплатно или активируйте премиальные модели D-Fire, D-Strong и безлимитный режим ОЛР.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+      
+      <!-- Free Starter -->
+      <div class="liquid-glass rounded-3xl p-8 flex flex-col justify-between border border-white/15">
+        <div>
+          <div class="text-sm font-semibold uppercase tracking-wider text-zinc-400 mb-2">Стартовый</div>
+          <div class="flex items-baseline gap-2 mb-6">
+            <span class="font-display font-black text-4xl text-white">0 ₽</span>
+            <span class="text-xs text-zinc-400">/ навсегда</span>
+          </div>
+          <p class="text-xs text-zinc-400 mb-6">Базовое знакомство с искусственным интеллектом Демьяна.</p>
+          <ul class="space-y-3.5 text-xs text-zinc-300">
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-brandGold"></i>
+              <span>Модели <strong>D-AI</strong> и <strong>D-Electro</strong></span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-brandGold"></i>
+              <span>Чат с ИИ + поддержка собственного Gemini API</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-brandGold"></i>
+              <span>Генерация артов ✏️ (до 50 в день)</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-brandGold"></i>
+              <span>Работа без VPN в СНГ и РФ</span>
+            </li>
+            <li class="flex items-center gap-2.5 text-zinc-500">
+              <i class="fa-solid fa-xmark"></i>
+              <span>Оф-Лайн Режим (ОЛР)</span>
+            </li>
+          </ul>
+        </div>
+        <button onclick="handleSubscribe('Базовый')" class="w-full mt-8 py-3.5 rounded-xl border border-white/20 text-white font-semibold text-xs hover:border-brandGold hover:text-brandGold transition-colors">
+          Попробовать бесплатно
+        </button>
+      </div>
+
+      <!-- PRO Plan (Featured) -->
+      <div class="liquid-glass rounded-3xl p-8 flex flex-col justify-between border-2 border-brandGold relative bg-gradient-to-b from-brandGold/10 via-black/80 to-black shadow-2xl shadow-brandGold/20">
+        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 bg-brandGold text-black font-display font-extrabold text-[11px] uppercase tracking-wider rounded-full shadow-lg">
+          Хит продаж
+        </div>
+        <div>
+          <div class="text-sm font-semibold uppercase tracking-wider text-brandGold mb-2">D-PRO Творец</div>
+          <div class="flex items-baseline gap-2 mb-6">
+            <span class="font-display font-black text-4xl text-white">790 ₽</span>
+            <span class="text-xs text-zinc-400">/ месяц</span>
+          </div>
+          <p class="text-xs text-zinc-300 mb-6">Полный арсенал: видео, аудио, максимальная скорость и ОЛР.</p>
+          <ul class="space-y-3.5 text-xs text-zinc-200">
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-brandGold"></i>
+              <span><strong>Все 5 моделей:</strong> D-AI, Electro, Fire, Strong, Water</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-brandGold"></i>
+              <span>Генерация видео 🎥 (Full HD / 60 FPS)</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-brandGold"></i>
+              <span>Синтез треков и музыки 🎵 без ограничений</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-brandGold"></i>
+              <span><strong>Режим ОЛР 📴 включен:</strong> генерация без сети</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-brandGold"></i>
+              <span>Приоритетная очередь инференса</span>
+            </li>
+          </ul>
+        </div>
+        <button onclick="handleSubscribe('D-PRO')" class="w-full mt-8 py-3.5 rounded-xl bg-brandGold text-black font-display font-bold text-xs uppercase tracking-wider hover:bg-yellow-300 transition-all shadow-lg shadow-brandGold/30">
+          Оформить подписку D-PRO
+        </button>
+      </div>
+
+      <!-- Studio Enterprise -->
+      <div class="liquid-glass rounded-3xl p-8 flex flex-col justify-between border border-white/15">
+        <div>
+          <div class="text-sm font-semibold uppercase tracking-wider text-zinc-400 mb-2">Enterprise / Студия</div>
+          <div class="flex items-baseline gap-2 mb-6">
+            <span class="font-display font-black text-4xl text-white">2 490 ₽</span>
+            <span class="text-xs text-zinc-400">/ месяц</span>
+          </div>
+          <p class="text-xs text-zinc-400 mb-6">Для продакшн-команд, артистов и разработчиков софта.</p>
+          <ul class="space-y-3.5 text-xs text-zinc-300">
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-brandGold"></i>
+              <span>API доступ для интеграции в свои сервисы</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-brandGold"></i>
+              <span>Пакетный экспорт 8K UHD & Lossless Audio</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-brandGold"></i>
+              <span>ОЛР для команды (до 5 устройств офлайн)</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-brandGold"></i>
+              <span>Выделенный менеджер 24/7</span>
+            </li>
+          </ul>
+        </div>
+        <button onclick="handleSubscribe('Enterprise')" class="w-full mt-8 py-3.5 rounded-xl border border-white/20 text-white font-semibold text-xs hover:border-brandGold hover:text-brandGold transition-colors">
+          Подключить студию
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Gemini API Key Modal -->
+  <div id="apiKeyModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="liquid-glass rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-brandGold/40 relative animate-scaleUp">
+      
+      <button onclick="closeApiKeyModal()" class="absolute top-5 right-5 text-zinc-400 hover:text-white transition-colors">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-12 h-12 rounded-2xl bg-brandGold/20 border border-brandGold/50 flex items-center justify-center text-brandGold text-2xl font-bold">
+          ✦
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-xl text-white">API-ключ Google Gemini</h3>
+          <p class="text-xs text-zinc-400">Подключение официального интеллекта Gemini к DEMYAN AI</p>
+        </div>
+      </div>
+
+      <p class="text-xs text-zinc-300 leading-relaxed mb-4">
+        Введи свой API-ключ Gemini, чтобы общаться напрямую с настоящей нейросетью Google внутри интерфейса DEMYAN AI. Ключ сохраняется исключительно в твоём браузере (LocalStorage) и никуда не передаётся.
+      </p>
+
+      <div class="space-y-4 mb-6">
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-zinc-400 font-bold mb-1.5">
+            Твой API-ключ Gemini (AI Studio):
+          </label>
+          <div class="relative">
+            <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy..." class="w-full bg-black/80 border border-white/20 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brandGold transition-colors pr-10 font-mono">
+            <button type="button" onclick="toggleApiKeyVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-brandGold transition-colors">
+              <i id="apiKeyEyeIcon" class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="p-3 rounded-xl bg-white/5 border border-white/10 flex items-start gap-2.5 text-xs text-zinc-300">
+          <i class="fa-solid fa-circle-info text-brandGold mt-0.5"></i>
+          <div>
+            <span>Где взять ключ бесплатно? На официальном портале: </span>
+            <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-brandGold underline font-semibold hover:text-yellow-300">Google AI Studio</a>.
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center gap-3">
+        <button onclick="saveGeminiApiKey()" class="w-full sm:flex-1 py-3.5 rounded-xl bg-brandGold text-black font-display font-bold text-xs uppercase tracking-wider hover:bg-yellow-300 transition-all shadow-lg shadow-brandGold/20">
+          Сохранить и подключить ✦
+        </button>
+        <button onclick="removeGeminiApiKey()" class="w-full sm:w-auto px-4 py-3.5 rounded-xl border border-red-500/30 text-red-400 hover:bg-red-500/10 text-xs font-semibold transition-colors">
+          Удалить ключ
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Export & Share Modal -->
+  <div id="exportModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="liquid-glass rounded-3xl p-6 sm:p-8 max-w-md w-full border border-brandGold/40 relative">
+      <button onclick="closeExportModal()" class="absolute top-5 right-5 text-zinc-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="w-12 h-12 rounded-2xl bg-brandGold/20 border border-brandGold/40 flex items-center justify-center text-brandGold text-xl mb-4">
+        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+      </div>
+
+      <h3 class="font-display font-bold text-xl text-white mb-1">Поделиться и экспортировать</h3>
+      <p class="text-xs text-zinc-400 mb-6">Выберите удобный способ сохранения или отправки ответа DEMYAN AI:</p>
+
+      <div class="space-y-3">
+        <button onclick="exportMessageAs('copy')" class="w-full p-3.5 rounded-xl bg-white/5 hover:bg-brandGold/20 hover:border-brandGold border border-white/10 text-left text-xs font-semibold text-white flex items-center justify-between transition-colors">
+          <span class="flex items-center gap-2.5">
+            <i class="fa-regular fa-copy text-brandGold"></i>
+            <span>Скопировать чистый текст</span>
+          </span>
+          <i class="fa-solid fa-chevron-right text-[10px] text-zinc-500"></i>
+        </button>
+
+        <button onclick="exportMessageAs('markdown')" class="w-full p-3.5 rounded-xl bg-white/5 hover:bg-brandGold/20 hover:border-brandGold border border-white/10 text-left text-xs font-semibold text-white flex items-center justify-between transition-colors">
+          <span class="flex items-center gap-2.5">
+            <i class="fa-brands fa-markdown text-brandGold"></i>
+            <span>Скачать как Markdown (.md)</span>
+          </span>
+          <i class="fa-solid fa-chevron-right text-[10px] text-zinc-500"></i>
+        </button>
+
+        <button onclick="exportMessageAs('txt')" class="w-full p-3.5 rounded-xl bg-white/5 hover:bg-brandGold/20 hover:border-brandGold border border-white/10 text-left text-xs font-semibold text-white flex items-center justify-between transition-colors">
+          <span class="flex items-center gap-2.5">
+            <i class="fa-regular fa-file-lines text-brandGold"></i>
+            <span>Скачать как текстовый файл (.txt)</span>
+          </span>
+          <i class="fa-solid fa-chevron-right text-[10px] text-zinc-500"></i>
+        </button>
+
+        <button onclick="exportMessageAs('share')" class="w-full p-3.5 rounded-xl bg-white/5 hover:bg-brandGold/20 hover:border-brandGold border border-white/10 text-left text-xs font-semibold text-white flex items-center justify-between transition-colors">
+          <span class="flex items-center gap-2.5">
+            <i class="fa-solid fa-share-nodes text-brandGold"></i>
+            <span>Скопировать ссылку диалога</span>
+          </span>
+          <i class="fa-solid fa-chevron-right text-[10px] text-zinc-500"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Alert/Notice Modal (No native alert() permitted) -->
+  <div id="customNoticeModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="liquid-glass rounded-3xl p-6 sm:p-8 max-w-md w-full border border-brandGold/40 text-center animate-scaleUp">
+      <div class="w-14 h-14 rounded-2xl bg-brandGold/20 border border-brandGold/50 mx-auto flex items-center justify-center text-2xl text-brandGold mb-4" id="customNoticeIcon">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <h3 class="font-display font-bold text-xl text-white mb-2" id="customNoticeTitle">Уведомление</h3>
+      <p class="text-sm text-zinc-300 mb-6" id="customNoticeMessage">Содержимое</p>
+      <button onclick="closeNoticeModal()" class="w-full py-3 rounded-xl bg-brandGold text-black font-display font-bold text-xs uppercase tracking-wider hover:bg-yellow-300 transition-all">
+        Понятно
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="liquid-glass rounded-2xl px-5 py-3 border border-brandGold/50 flex items-center gap-3 text-xs text-white shadow-2xl">
+      <div class="w-6 h-6 rounded-lg bg-brandGold text-black flex items-center justify-center text-xs font-bold" id="toastIcon">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <span id="toastText">Скопировано!</span>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10 pt-16 pb-12 px-4 sm:px-6 max-w-7xl mx-auto text-zinc-400 text-xs">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/10">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-xl bg-brandGold flex items-center justify-center font-display font-black text-black">D</div>
+        <span class="font-display font-bold text-white text-base">DEMYAN AI <span class="text-brandGold">(D-AI)</span></span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-6">
+        <a href="#chat" class="hover:text-brandGold transition-colors">Чат с ИИ</a>
+        <a href="#features" class="hover:text-brandGold transition-colors">Возможности</a>
+        <a href="#models" class="hover:text-brandGold transition-colors">5 Моделей</a>
+        <a href="#offline" class="hover:text-brandGold transition-colors">Режим ОЛР</a>
+        <a href="#pricing" class="hover:text-brandGold transition-colors">Тарифы</a>
+      </div>
+      <div class="flex items-center gap-4 text-sm text-white">
+        <button onclick="openApiKeyModal()" class="text-brandGold hover:underline text-xs flex items-center gap-1">
+          <span>✦ API-ключ Gemini</span>
+        </button>
+      </div>
+    </div>
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-zinc-300">
+      <div>&copy; 2026 DEMYAN AI Inc. Разработано для творчества без границ и VPN.</div>
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span>Статус: Все системы и ОЛР активны</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic & Chat Engine -->
+  <script>
+    // State management
+    const appState = {
+      activeModel: 'D-AI',
+      isChatOlrEnabled: false,
+      isStudioOlrEnabled: true,
+      studioMode: 'art',
+      geminiApiKey: '',
+      isGeneratingChat: false,
+      isGeneratingStudio: false,
+      messageCounter: 1,
+      currentExportMsgId: null,
+      lastUserPrompt: '',
+      conversationHistory: [
+        {
+          role: "model",
+          parts: [{ text: "Привет! Я DEMYAN AI (D-AI) — твоя персональная интеллектуальная система нового поколения. Чем могу помочь тебе сегодня?" }]
+        }
+      ]
+    };
+
+    // Preset prompts database for studio
+    const studioPresets = {
+      art: [
+        "Футуристический кибер-город будущего в стиле Liquid Glass, золотые неоновые нити, отражения в воде, фотореализм 8K",
+        "Механический феникс из полированного золота и чёрного карбона, расправляющий огненные крылья в космосе",
+        "Кинематографичный портрет астронавта в хромированном скафандре с золотым забралом на неизвестной планете"
+      ],
+      video: [
+        "Плавный облёт дроном футуристического мегаполиса со спидерами, закатное солнце, 60 FPS",
+        "Капли жидкого золота трансформируются в логотип DEMYAN AI, кинематографичный слоу-мо макрофокус",
+        "Рождение сверхновой звезды с волнами электромагнитной энергии и звездной пыли"
+      ],
+      music: [
+        "Энергичный киберпанк синтвейв с мощной бас-линией, перегруженными аналоговыми лидами и космической атмосферой",
+        "Глубокий атмосферный эмбиент с шумом дождя, плавным фортепиано и теплыми лоу-фай аккордами",
+        "Мощный кинематографичный оркестровый саундтрек для трейлера с боевыми барабанами и эпическим хором"
+      ],
+      offline: [
+        "[ОЛР] Локальный рендер 3D-композиции без обращения к внешним серверам через аппаратное ускорение",
+        "[ОЛР] Автономная генерация фонового эмбиент-трека на локальном движке D-Audio",
+        "[ОЛР] Быстрый эскиз интерфейса мобильного приложения на модели D-Electro"
+      ]
+    };
+
+    // Initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStoredApiKey();
+      fillPresetStudioPrompt();
+
+      // Click outside to close extra dropdowns
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.dropdown-parent')) {
+          document.querySelectorAll('.extra-dropdown').forEach(el => el.classList.add('hidden'));
+        }
+      });
+    });
+
+    // Toast utility
+    function showToast(text, icon = "fa-solid fa-check") {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastText').innerText = text;
+      document.getElementById('toastIcon').innerHTML = `<i class="${icon}"></i>`;
+      
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 2500);
+    }
+
+    // Modal notices (No alert allowed)
+    function showNotice(title, message, iconClass = "fa-solid fa-circle-check") {
+      document.getElementById('customNoticeTitle').innerText = title;
+      document.getElementById('customNoticeMessage').innerText = message;
+      document.getElementById('customNoticeIcon').innerHTML = `<i class="${iconClass}"></i>`;
+      document.getElementById('customNoticeModal').classList.remove('hidden');
+    }
+
+    function closeNoticeModal() {
+      document.getElementById('customNoticeModal').classList.add('hidden');
+    }
+
+    /* -------------------------------------------------------------
+       GEMINI API KEY MANAGEMENT
+    -------------------------------------------------------------- */
+    function openApiKeyModal() {
+      const stored = localStorage.getItem('demyan_gemini_api_key') || '';
+      document.getElementById('geminiApiKeyInput').value = stored;
+      document.getElementById('apiKeyModal').classList.remove('hidden');
+    }
+
+    function closeApiKeyModal() {
+      document.getElementById('apiKeyModal').classList.add('hidden');
+    }
+
+    function toggleApiKeyVisibility() {
+      const input = document.getElementById('geminiApiKeyInput');
+      const icon = document.getElementById('apiKeyEyeIcon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-regular fa-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-regular fa-eye';
+      }
+    }
+
+    function saveGeminiApiKey() {
+      const key = document.getElementById('geminiApiKeyInput').value.trim();
+      if (!key) {
+        showToast("Пожалуйста, введите API-ключ", "fa-solid fa-triangle-exclamation");
+        return;
+      }
+
+      appState.geminiApiKey = key;
+      localStorage.setItem('demyan_gemini_api_key', key);
+      updateApiKeyStatusUI(true);
+      closeApiKeyModal();
+      showNotice("Ключ Gemini подключен! ✦", "Теперь чат DEMYAN AI соединён с официальным интеллектом Google Gemini. Наслаждайтесь мгновенными ответами!", "fa-solid fa-bolt");
+    }
+
+    function removeGeminiApiKey() {
+      appState.geminiApiKey = '';
+      localStorage.removeItem('demyan_gemini_api_key');
+      document.getElementById('geminiApiKeyInput').value = '';
+      updateApiKeyStatusUI(false);
+      closeApiKeyModal();
+      showToast("Ключ удален. Включен эмулятор D-AI", "fa-solid fa-trash-can");
+    }
+
+    function loadStoredApiKey() {
+      const key = localStorage.getItem('demyan_gemini_api_key');
+      if (key && key.length > 5) {
+        appState.geminiApiKey = key;
+        updateApiKeyStatusUI(true);
+      } else {
+        updateApiKeyStatusUI(false);
+      }
+    }
+
+    function updateApiKeyStatusUI(isConnected) {
+      const dot = document.getElementById('apiKeyStatusDot');
+      const badgeBtn = document.getElementById('apiKeyBadgeBtn');
+      const apiBackendTag = document.getElementById('apiBackendTag');
+
+      if (isConnected) {
+        dot.className = "w-2 h-2 rounded-full bg-brandGold shadow-md shadow-brandGold animate-pulse";
+        badgeBtn.classList.add('border-brandGold');
+        apiBackendTag.innerHTML = `Режим: <span class="text-brandGold font-semibold">Google Gemini ✦ Live</span>`;
+      } else {
+        dot.className = "w-2 h-2 rounded-full bg-zinc-600";
+        badgeBtn.classList.remove('border-brandGold');
+        apiBackendTag.innerHTML = `Режим: <span class="text-zinc-400">Эмулятор D-AI (Локальный)</span>`;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       CHAT LOGIC & STREAMING
+    -------------------------------------------------------------- */
+    function changeChatModel(modelName) {
+      appState.activeModel = modelName;
+      document.getElementById('chatModelSelect').value = modelName;
+      document.getElementById('chatEngineBadge').innerText = getModelShortTag(modelName);
+      document.getElementById('activeModelTag').innerText = `${getModelShortTag(modelName)} (${modelName})`;
+      showToast(`Модель переключена на ${modelName}`);
+    }
+
+    function selectModelEverywhere(modelName) {
+      changeChatModel(modelName);
+      selectStudioModel(modelName);
+      const chatElem = document.getElementById('chat');
+      if (chatElem) {
+        chatElem.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function getModelShortTag(model) {
+      switch(model) {
+        case 'D-AI': return '⭐ D-AI';
+        case 'D-Electro': return '⚡ D-Electro';
+        case 'D-Fire': return '🔥 D-Fire';
+        case 'D-Strong': return '💪 D-Strong';
+        case 'D-Water': return '💦 D-Water';
+        default: return '🤖 D-AI';
+      }
+    }
+
+    function toggleChatOlr() {
+      appState.isChatOlrEnabled = !appState.isChatOlrEnabled;
+      const label = document.getElementById('chatOlrLabel');
+      const btn = document.getElementById('chatOlrBtn');
+      if (appState.isChatOlrEnabled) {
+        label.innerText = 'ОЛР: Вкл (Офлайн)';
+        btn.classList.add('border-brandGold', 'text-brandGold');
+        showToast("Чат переведен в Оф-Лайн Режим (ОЛР)", "fa-solid fa-plane-slash");
+      } else {
+        label.innerText = 'ОЛР: Выкл';
+        btn.classList.remove('border-brandGold', 'text-brandGold');
+        showToast("Чат работает в стандартном онлайн режиме", "fa-solid fa-globe");
+      }
+    }
+
+    function handleChatKeyDown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        handleChatSubmit(e);
+      }
+    }
+
+    function clearInputPrompt() {
+      document.getElementById('chatInputText').value = '';
+    }
+
+    function sendQuickPrompt(text) {
+      document.getElementById('chatInputText').value = text;
+      handleChatSubmit(new Event('submit'));
+    }
+
+    // Submit Chat message
+    async function handleChatSubmit(e) {
+      if (e) e.preventDefault();
+      if (appState.isGeneratingChat) return;
+
+      const input = document.getElementById('chatInputText');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appState.lastUserPrompt = text;
+      input.value = '';
+      appState.messageCounter++;
+      const userMsgId = `msg-user-${appState.messageCounter}`;
+
+      // Render User Message with required actions: Copy, Edit Prompt
+      appendUserMessage(userMsgId, text);
+
+      // Prepare AI container
+      appState.messageCounter++;
+      const aiMsgId = `msg-ai-${appState.messageCounter}`;
+      appendAiPlaceholder(aiMsgId);
+
+      scrollToChatBottom();
+
+      appState.isGeneratingChat = true;
+      document.getElementById('chatSendBtn').disabled = true;
+      document.getElementById('liveStatusIndicator').className = "inline-block w-2 h-2 rounded-full bg-brandGold animate-ping";
+      document.getElementById('liveStatusText').innerText = "Генерация ответа...";
+
+      try {
+        let aiResponseText = '';
+
+        if (appState.geminiApiKey && !appState.isChatOlrEnabled) {
+          // Call official Gemini API
+          aiResponseText = await callRealGeminiApi(text);
+        } else {
+          // Local D-AI Persona Heuristic Generator
+          aiResponseText = await simulateLocalDAIResponse(text, appState.activeModel, appState.isChatOlrEnabled);
+        }
+
+        renderAiFinalResponse(aiMsgId, aiResponseText);
+      } catch (err) {
+        console.error(err);
+        renderAiFinalResponse(aiMsgId, `Ошибка соединения с API: ${err.message || 'Проверьте API-ключ или сеть'}. Переключитесь в режим ОЛР или обновите ключ Gemini.`);
+      } finally {
+        appState.isGeneratingChat = false;
+        document.getElementById('chatSendBtn').disabled = false;
+        document.getElementById('liveStatusIndicator').className = "inline-block w-2 h-2 rounded-full bg-emerald-400";
+        document.getElementById('liveStatusText').innerText = "Готов к диалогу • Режим диалога";
+        scrollToChatBottom();
+      }
+    }
+
+    // Append User Message into DOM
+    function appendUserMessage(msgId, text) {
+      const container = document.getElementById('chatMessages');
+      const div = document.createElement('div');
+      div.className = "flex flex-col items-end gap-1.5 ml-auto max-w-2xl";
+      div.id = msgId;
+
+      div.innerHTML = `
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] text-zinc-500">Вы</span>
+          <div class="w-5 h-5 rounded-md bg-white/20 text-white flex items-center justify-center text-[10px]">
+            <i class="fa-solid fa-user"></i>
+          </div>
+        </div>
+        <div class="chat-bubble-user rounded-2xl rounded-tr-sm p-4 text-sm text-zinc-100 whitespace-pre-wrap leading-relaxed">
+          ${escapeHtml(text)}
+        </div>
+        <!-- User requested buttons: Скопировать запрос, Изменить запрос -->
+        <div class="flex items-center gap-1.5 text-xs text-zinc-400 pr-1">
+          <button onclick="copyPromptText('${msgId}')" class="px-2.5 py-1 rounded-lg hover:bg-white/10 hover:text-white transition-colors flex items-center gap-1.5" title="Скопировать запрос">
+            <i class="fa-regular fa-copy text-[11px]"></i>
+            <span>Скопировать запрос</span>
+          </button>
+          <button onclick="editPromptText('${msgId}')" class="px-2.5 py-1 rounded-lg hover:bg-white/10 hover:text-brandGold transition-colors flex items-center gap-1.5" title="Изменить запрос">
+            <i class="fa-solid fa-pen-to-square text-[11px]"></i>
+            <span>Изменить запрос</span>
+          </button>
+        </div>
+      `;
+      container.appendChild(div);
+    }
+
+    // Append AI placeholder bubble
+    function appendAiPlaceholder(msgId) {
+      const container = document.getElementById('chatMessages');
+      const div = document.createElement('div');
+      div.className = "flex flex-col gap-2.5 max-w-3xl";
+      div.id = msgId;
+
+      div.innerHTML = `
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-lg bg-brandGold text-black flex items-center justify-center text-xs font-bold font-display">
+            D
+          </div>
+          <span class="text-xs font-bold text-white">DEMYAN AI</span>
+          <span class="text-[10px] text-brandGold font-mono">${appState.activeModel}</span>
+          <span class="text-[10px] text-zinc-500">думает...</span>
+        </div>
+        <div class="chat-bubble-ai rounded-2xl rounded-tl-sm p-4 text-sm text-zinc-300 prose-ai flex items-center gap-3">
+          <div class="w-4 h-4 rounded-full border-2 border-brandGold/30 border-t-brandGold animate-spin"></div>
+          <span class="text-xs text-zinc-400">Синтез ответа нейросетью...</span>
+        </div>
+      `;
+      container.appendChild(div);
+    }
+
+    // Render finalized response with full action set
+    function renderAiFinalResponse(msgId, content) {
+      const msgElem = document.getElementById(msgId);
+      if (!msgElem) return;
+
+      const formattedHtml = formatMarkdownSimple(content);
+
+      msgElem.innerHTML = `
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-lg bg-brandGold text-black flex items-center justify-center text-xs font-bold font-display">
+            D
+          </div>
+          <span class="text-xs font-bold text-white">DEMYAN AI</span>
+          <span class="text-[10px] text-brandGold font-mono">${appState.activeModel}</span>
+          <span class="text-[10px] text-zinc-500">только что</span>
+        </div>
+
+        <!-- AI Bubble content -->
+        <div class="chat-bubble-ai rounded-2xl rounded-tl-sm p-4 text-sm text-zinc-200 prose-ai">
+          ${formattedHtml}
+        </div>
+
+        <!-- AI Message Toolbar (All requested buttons) -->
+        <div class="flex flex-wrap items-center gap-1.5 text-xs text-zinc-400 pl-1">
+          <!-- Копировать ответ -->
+          <button onclick="copyMessageText('${msgId}')" class="px-2.5 py-1 rounded-lg hover:bg-white/10 hover:text-white transition-colors flex items-center gap-1.5" title="Копировать ответ">
+            <i class="fa-regular fa-copy text-[11px]"></i>
+            <span class="hidden sm:inline">Копировать ответ</span>
+          </button>
+
+          <!-- Поделиться и экспортировать -->
+          <button onclick="openExportModal('${msgId}')" class="px-2.5 py-1 rounded-lg hover:bg-white/10 hover:text-white transition-colors flex items-center gap-1.5" title="Поделиться и экспортировать">
+            <i class="fa-solid fa-arrow-up-from-bracket text-[11px]"></i>
+            <span class="hidden sm:inline">Поделиться и экспортировать</span>
+          </button>
+
+          <!-- Лайк -->
+          <button onclick="toggleLike(this)" class="px-2.5 py-1 rounded-lg hover:bg-white/10 hover:text-brandGold transition-colors flex items-center gap-1" title="Нравится">
+            <i class="fa-regular fa-thumbs-up text-[11px]"></i>
+          </button>
+
+          <!-- Дизлайк -->
+          <button onclick="toggleDislike(this)" class="px-2.5 py-1 rounded-lg hover:bg-white/10 hover:text-red-400 transition-colors flex items-center gap-1" title="Не нравится">
+            <i class="fa-regular fa-thumbs-down text-[11px]"></i>
+          </button>
+
+          <!-- Доп. функции (три горизонтальные точки) -->
+          <div class="relative inline-block dropdown-parent">
+            <button onclick="toggleExtraMenu(this)" class="px-2.5 py-1 rounded-lg hover:bg-white/10 hover:text-white transition-colors flex items-center gap-1" title="Дополнительные функции">
+              <i class="fa-solid fa-ellipsis text-[12px]"></i>
+            </button>
+            <div class="hidden extra-dropdown absolute left-0 bottom-full mb-1 w-48 liquid-glass rounded-xl p-1.5 text-xs text-zinc-300 shadow-2xl z-40 border border-white/20">
+              <button onclick="speakMessage('${msgId}')" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-brandGold/20 hover:text-brandGold flex items-center gap-2">
+                <i class="fa-solid fa-volume-high text-[11px]"></i>
+                <span>Озвучить ответ</span>
+              </button>
+              <button onclick="regenerateLastResponse()" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-brandGold/20 hover:text-brandGold flex items-center gap-2">
+                <i class="fa-solid fa-arrows-rotate text-[11px]"></i>
+                <span>Перегенерировать</span>
+              </button>
+              <button onclick="showTokenDetails()" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-brandGold/20 hover:text-brandGold flex items-center gap-2">
+                <i class="fa-solid fa-microchip text-[11px]"></i>
+                <span>Инфо о токенах</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Call real Google Gemini API
+    async function callRealGeminiApi(promptText) {
+      const apiKey = appState.geminiApiKey;
+      const model = "gemini-2.5-flash";
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+      const systemPrompt = `Ты — DEMYAN AI (D-AI), мощная нейросетевая экосистема нового поколения. Ты умеешь общаться, генерировать тексты, писать код и предлагать концепты для артов (✏️), видео (🎥) и музыки (🎵). Твои особенности: работа без VPN в СНГ и РФ, поддержка автономного режима ОЛР (Оф-Лайн Режим), фирменная эстетика жидкого стекла и золота (#FFDD00). Отвечай на русском языке доброжелательно, экспертно, структурированно, с приятными эмодзи.`;
+
+      const payload = {
+        contents: [
+          { role: "user", parts: [{ text: promptText }] }
+        ],
+        systemInstruction: {
+          parts: [{ text: systemPrompt }]
+        }
+      };
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error?.message || `HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!generatedText) {
+        throw new Error("Пустой ответ от Gemini API");
+      }
+      return generatedText;
+    }
+
+    // Simulated D-AI responses when no API key is set or in OLR mode
+    async function simulateLocalDAIResponse(prompt, model, isOlr) {
+      await new Promise(r => setTimeout(r, 900));
+
+      const pLower = prompt.toLowerCase();
+      let modeNote = isOlr ? "📴 [Сгенерировано локально в режиме ОЛР без интернета]" : "⚡ [Локальный движок DEMYAN AI • Без VPN]";
+
+      if (pLower.includes("арт") || pLower.includes("нарисуй") || pLower.includes("рисун")) {
+        return `${modeNote}\n\n**Концепт для генератора артов DEMYAN AI ✏️:**\n\n*Промпт:* \`Кинематографичная композиция: футуристический неоновый сокол из жидкого полированного золота (#FFDD00) и черного матового стекла, летящий над ночным кибер-мегаполисом, отражения в воде, фотореализм 8K, объемные лучи света, стиль Liquid Glass.\`\n\nВы можете скопировать этот промпт и вставить его в блок «Студия D-AI» ниже, чтобы запустить генерацию!`;
+      }
+
+      if (pLower.includes("видео") || pLower.includes("ролик")) {
+        return `${modeNote}\n\n**Раскадровка видео для DEMYAN AI 🎥 (60 FPS):**\n\n1. **0:00 - 0:04** — Плавный наезд камеры на кристалл жидкого стекла, внутри которого пульсирует золотое энергетическое ядро.\n2. **0:05 - 0:10** — Кристалл разлетается на тысячи зеркальных осколков, раскрывая логотип DEMYAN AI.\n3. **0:11 - 0:15** — Финальный слоу-мо пролёт камеры с золотистыми искрами и логотипом D-AI.\n\n*Режим:* 1080p / 60 FPS / Ultra-Smooth.`;
+      }
+
+      if (pLower.includes("музык") || pLower.includes("трек") || pLower.includes("бит")) {
+        return `${modeNote}\n\n**Музыкальная партитура DEMYAN Sound Engine 🎵:**\n\n• **Жанр:** Cyberpunk Dark Synthwave\n• **Темп:** 128 BPM\n• **Тональность:** D-Minor\n• **Инструменты:** Аналоговый бас Moog, теплые пэды жидкого стекла, золотой лид-синтезатор и плотные барабаны 808.\n• **Формат:** 320 kbps Lossless Stereo.`;
+      }
+
+      if (pLower.includes("олр") || pLower.includes("офлайн") || pLower.includes("интернет")) {
+        return `${modeNote}\n\n**Оф-Лайн Режим (ОЛР 📴) в DEMYAN AI:**\n\nЭто наша гордость! ОЛР позволяет нейросети запускаться прямо на вашем локальном устройстве (ПК или ноутбук) с квантованными весами INT8/INT4. Вы можете продолжать диалог, генерировать тексты и идеи в самолёте, поезде или при отсутствии интернета. Данные на 100% приватны!`;
+      }
+
+      // Default rich answer
+      return `${modeNote}\n\nОтличный вопрос! Я обработал его через модель **${model}**.\n\nВ экосистеме **DEMYAN AI (D-AI)** всё построено так, чтобы давать максимальную скорость и креативность:\n- 🚫🌐 **Без VPN** — мы работаем стабильно в России, СНГ и любой точке планеты.\n- ✏️ 🎥 🎵 **Мультимодальность** — текст, графика, анимация и звук в одном флаконе.\n- ✦ **Поддержка Gemini** — если хотите неограниченный интеллектуальный поток от Google, просто нажмите кнопку **«Ключ Gemini»** наверху и добавьте свой ключ!`;
+    }
+
+    /* -------------------------------------------------------------
+       MESSAGE BUTTON HANDLERS
+    -------------------------------------------------------------- */
+    // 1. Copy AI message
+    function copyMessageText(msgId) {
+      const bubble = document.querySelector(`#${msgId} .chat-bubble-ai`);
+      if (!bubble) return;
+      const text = bubble.innerText;
+      copyToClipboardText(text);
+      showToast("Ответ скопирован в буфер обмена!");
+    }
+
+    // 2. Copy User Prompt
+    function copyPromptText(msgId) {
+      const bubble = document.querySelector(`#${msgId} .chat-bubble-user`);
+      if (!bubble) return;
+      const text = bubble.innerText;
+      copyToClipboardText(text);
+      showToast("Запрос скопирован!");
+    }
+
+    // 3. Edit User Prompt back into input
+    function editPromptText(msgId) {
+      const bubble = document.querySelector(`#${msgId} .chat-bubble-user`);
+      if (!bubble) return;
+      const text = bubble.innerText.trim();
+      const input = document.getElementById('chatInputText');
+      input.value = text;
+      input.focus();
+      input.scrollIntoView({ behavior: 'smooth' });
+      showToast("Запрос перенесён в поле ввода для правки", "fa-solid fa-pen");
+    }
+
+    // 4. Like / Dislike toggles
+    function toggleLike(btn) {
+      const icon = btn.querySelector('i');
+      if (icon.classList.contains('fa-solid')) {
+        icon.className = 'fa-regular fa-thumbs-up text-[11px]';
+        btn.classList.remove('text-brandGold');
+      } else {
+        icon.className = 'fa-solid fa-thumbs-up text-[11px]';
+        btn.classList.add('text-brandGold');
+        showToast("Спасибо за оценку!");
+      }
+    }
+
+    function toggleDislike(btn) {
+      const icon = btn.querySelector('i');
+      if (icon.classList.contains('fa-solid')) {
+        icon.className = 'fa-regular fa-thumbs-down text-[11px]';
+        btn.classList.remove('text-red-400');
+      } else {
+        icon.className = 'fa-solid fa-thumbs-down text-[11px]';
+        btn.classList.add('text-red-400');
+        showToast("Отзыв записан. D-AI учтет это!");
+      }
+    }
+
+    // 5. Three dots extra menu
+    function toggleExtraMenu(btn) {
+      const dropdown = btn.parentElement.querySelector('.extra-dropdown');
+      const isHidden = dropdown.classList.contains('hidden');
+      document.querySelectorAll('.extra-dropdown').forEach(el => el.classList.add('hidden'));
+      if (isHidden) {
+        dropdown.classList.remove('hidden');
+      }
+    }
+
+    function speakMessage(msgId) {
+      const bubble = document.querySelector(`#${msgId} .chat-bubble-ai`);
+      if (!bubble) return;
+      const text = bubble.innerText;
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ru-RU';
+        utterance.rate = 1.05;
+        window.speechSynthesis.speak(utterance);
+        showToast("Озвучивание запущено...", "fa-solid fa-volume-high");
+      } else {
+        showToast("Синтез речи не поддерживается браузером", "fa-solid fa-volume-xmark");
+      }
+    }
+
+    function regenerateLastResponse() {
+      if (!appState.lastUserPrompt) {
+        showToast("Нет предыдущего запроса для перегенерации");
+        return;
+      }
+      document.getElementById('chatInputText').value = appState.lastUserPrompt;
+      handleChatSubmit(new Event('submit'));
+    }
+
+    function showTokenDetails() {
+      showNotice("Информация о токене D-AI", "Модель: " + appState.activeModel + "\nКонтекстное окно: 1,000,000 токенов\nТемпература: 0.7\nЗадержка ответа: ~0.4s", "fa-solid fa-microchip");
+    }
+
+    // 6. Export and Share Modal
+    function openExportModal(msgId) {
+      appState.currentExportMsgId = msgId;
+      document.getElementById('exportModal').classList.remove('hidden');
+    }
+
+    function closeExportModal() {
+      document.getElementById('exportModal').classList.add('hidden');
+    }
+
+    function exportMessageAs(type) {
+      const bubble = document.querySelector(`#${appState.currentExportMsgId} .chat-bubble-ai`);
+      const text = bubble ? bubble.innerText : 'DEMYAN AI Export';
+
+      if (type === 'copy') {
+        copyToClipboardText(text);
+        showToast("Текст скопирован!");
+      } else if (type === 'markdown') {
+        downloadBlob(text, 'demyan-ai-response.md', 'text/markdown');
+        showToast("Файл .md скачан!");
+      } else if (type === 'txt') {
+        downloadBlob(text, 'demyan-ai-response.txt', 'text/plain');
+        showToast("Файл .txt скачан!");
+      } else if (type === 'share') {
+        copyToClipboardText(window.location.href);
+        showToast("Ссылка на диалог скопирована!");
+      }
+      closeExportModal();
+    }
+
+    function downloadBlob(content, filename, contentType) {
+      const blob = new Blob([content], { type: contentType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function copyToClipboardText(text) {
+      const el = document.createElement('textarea');
+      el.value = text;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    }
+
+    function scrollToChatBottom() {
+      const container = document.getElementById('chatMessages');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function clearChatHistory() {
+      const container = document.getElementById('chatMessages');
+      container.innerHTML = `
+        <div class="p-4 rounded-2xl liquid-glass text-center text-xs text-zinc-400">
+          История диалога очищена. Начните новую беседу с DEMYAN AI!
+        </div>
+      `;
+      showToast("История очищена", "fa-regular fa-trash-can");
+    }
+
+    function escapeHtml(string) {
+      return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+        return ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;',
+          '/': '&#x2F;',
+          '`': '&#x60;',
+          '=': '&#x3D;'
+        })[s];
+      });
+    }
+
+    function formatMarkdownSimple(text) {
+      let escaped = escapeHtml(text);
+      // bold
+      escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>');
+      // inline code
+      escaped = escaped.replace(/`(.*?)`/g, '<code>$1</code>');
+      // paragraphs
+      return escaped.split('\n\n').map(p => `<p>${p.replace(/\n/g, '<br/>')}</p>`).join('');
+    }
+
+    /* -------------------------------------------------------------
+       STUDIO GENERATOR LOGIC
+    -------------------------------------------------------------- */
+    function setStudioMode(mode) {
+      appState.studioMode = mode;
+      const modes = ['art', 'video', 'music', 'offline'];
+      modes.forEach(m => {
+        const btn = document.getElementById(`mode-btn-${m}`);
+        if (m === mode) {
+          btn.className = "px-4 py-2 rounded-xl text-xs font-semibold transition-all bg-brandGold text-black flex items-center gap-1.5 shadow-md";
+        } else {
+          btn.className = "px-4 py-2 rounded-xl text-xs font-semibold transition-all text-zinc-300 hover:text-white flex items-center gap-1.5";
+        }
+      });
+
+      fillPresetStudioPrompt();
+
+      const prec = document.getElementById('precisionText');
+      if (mode === 'art') prec.innerText = 'Ultra Neural Canvas 8K';
+      else if (mode === 'video') prec.innerText = 'Cinematic Motion 60 FPS';
+      else if (mode === 'music') prec.innerText = 'Hi-Fi 320kbps Lossless Audio';
+      else if (mode === 'offline') prec.innerText = 'Локальный инференс (ОЛР Без сети)';
+    }
+
+    function fillPresetStudioPrompt() {
+      const list = studioPresets[appState.studioMode] || studioPresets.art;
+      const randomPrompt = list[Math.floor(Math.random() * list.length)];
+      document.getElementById('studioPromptInput').value = randomPrompt;
+    }
+
+    function selectStudioModel(modelName) {
+      appState.activeModel = modelName;
+      document.getElementById('activeStudioModelLabel').innerText = `Модель: ${modelName}`;
+      document.getElementById('studioGenerateBtnText').innerText = `Запустить ${modelName}`;
+    }
+
+    function toggleOlrSwitch() {
+      appState.isStudioOlrEnabled = !appState.isStudioOlrEnabled;
+      const indicator = document.getElementById('olrIndicator');
+      const toggleBtn = document.getElementById('olrToggleBtn');
+
+      if (appState.isStudioOlrEnabled) {
+        indicator.classList.remove('translate-x-0');
+        indicator.classList.add('translate-x-6');
+        toggleBtn.classList.remove('bg-zinc-700');
+        toggleBtn.classList.add('bg-brandGold');
+        showToast("Режим ОЛР активен для генератора", "fa-solid fa-plane-slash");
+      } else {
+        indicator.classList.remove('translate-x-6');
+        indicator.classList.add('translate-x-0');
+        toggleBtn.classList.remove('bg-brandGold');
+        toggleBtn.classList.add('bg-zinc-700');
+        showToast("ОЛР выключен (облачный режим)");
+      }
+    }
+
+    function triggerStudioGeneration() {
+      if (appState.isGeneratingStudio) return;
+      const prompt = document.getElementById('studioPromptInput').value.trim();
+      if (!prompt) {
+        fillPresetStudioPrompt();
+      }
+
+      appState.isGeneratingStudio = true;
+      const overlay = document.getElementById('studioLoadingOverlay');
+      const progressBar = document.getElementById('studioLoadingProgressBar');
+      const stageTitle = document.getElementById('studioLoadingStageTitle');
+      const subtext = document.getElementById('studioLoadingSubtext');
+
+      overlay.classList.remove('hidden');
+      progressBar.style.width = '20%';
+      stageTitle.innerText = `Инициализация ${appState.activeModel}...`;
+      subtext.innerText = appState.isStudioOlrEnabled ? 'Загрузка весов в локальный стек ОЛР...' : 'Прямое подключение без VPN...';
+
+      setTimeout(() => {
+        progressBar.style.width = '60%';
+        stageTitle.innerText = `Синтез ${appState.studioMode.toUpperCase()}...`;
+        subtext.innerText = `Квантование нейронов через ${appState.activeModel}`;
+      }, 700);
+
+      setTimeout(() => {
+        progressBar.style.width = '95%';
+        stageTitle.innerText = 'Финальный рендеринг Liquid Glass...';
+      }, 1300);
+
+      setTimeout(() => {
+        appState.isGeneratingStudio = false;
+        overlay.classList.add('hidden');
+        renderStudioOutput();
+      }, 1800);
+    }
+
+    function renderStudioOutput() {
+      const outputDisplay = document.getElementById('studioOutputDisplay');
+      const prompt = document.getElementById('studioPromptInput').value;
+
+      if (appState.studioMode === 'art') {
+        outputDisplay.innerHTML = `
+          <div class="w-full rounded-2xl bg-gradient-to-br from-yellow-900/30 via-zinc-950 to-black border border-brandGold/40 p-6 flex flex-col items-center justify-center relative overflow-hidden">
+            <div class="w-20 h-20 rounded-full bg-brandGold/20 border border-brandGold flex items-center justify-center text-4xl mb-4 shadow-lg shadow-brandGold/20">
+              ✏️
+            </div>
+            <div class="text-xs uppercase tracking-widest text-brandGold font-mono font-bold mb-1">Сгенерировано в D-AI Art Engine</div>
+            <h4 class="font-display font-bold text-lg text-white text-center max-w-md line-clamp-2">«${escapeHtml(prompt)}»</h4>
+            <div class="mt-4 flex flex-wrap justify-center gap-2">
+              <span class="text-[10px] bg-brandGold text-black font-extrabold px-2.5 py-1 rounded">8K UHD</span>
+              <span class="text-[10px] bg-white/10 text-white px-2 py-1 rounded">${appState.activeModel}</span>
+              <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-1 rounded">${appState.isStudioOlrEnabled ? 'ОЛР Локально ✓' : 'Cloud Без VPN'}</span>
+            </div>
+          </div>
+        `;
+      } else if (appState.studioMode === 'video') {
+        outputDisplay.innerHTML = `
+          <div class="w-full rounded-2xl bg-zinc-950 border border-brandGold/40 p-6 flex flex-col items-center justify-center relative overflow-hidden">
+            <div class="w-20 h-20 rounded-2xl bg-brandGold text-black flex items-center justify-center text-3xl mb-4 shadow-xl shadow-brandGold/30">
+              🎥
+            </div>
+            <div class="text-xs uppercase tracking-widest text-brandGold font-mono font-bold mb-1">Кинематографичный Видеоклип Готов</div>
+            <h4 class="font-display font-bold text-lg text-white text-center max-w-md line-clamp-2">«${escapeHtml(prompt)}»</h4>
+            <div class="mt-4 flex items-center gap-3">
+              <button onclick="showNotice('Воспроизведение 60 FPS', 'Кинематографичный рендеринг DEMYAN AI готов к просмотру в 60 FPS.', 'fa-solid fa-play')" class="px-4 py-2 rounded-xl bg-brandGold text-black text-xs font-bold flex items-center gap-2 hover:bg-yellow-300">
+                <i class="fa-solid fa-play"></i> Воспроизвести 60 FPS
+              </button>
+              <span class="text-xs text-zinc-400 font-mono">1080p | 12 сек</span>
+            </div>
+          </div>
+        `;
+      } else if (appState.studioMode === 'music') {
+        outputDisplay.innerHTML = `
+          <div class="w-full rounded-2xl bg-zinc-950 border border-brandGold/40 p-6 flex flex-col items-center justify-center relative overflow-hidden">
+            <div class="w-20 h-20 rounded-full bg-brandGold/15 border border-brandGold flex items-center justify-center text-3xl mb-4 text-brandGold">
+              🎵
+            </div>
+            <div class="text-xs uppercase tracking-widest text-brandGold font-mono font-bold mb-1">DEMYAN Audio Track Synthesized</div>
+            <h4 class="font-display font-bold text-base text-white text-center max-w-md line-clamp-1 mb-3">«${escapeHtml(prompt)}»</h4>
+            
+            <div class="flex items-center gap-1.5 h-10 mb-4 px-4 py-2 bg-black/60 rounded-xl border border-white/10">
+              <div class="w-1.5 bg-brandGold rounded-full h-3 animate-pulse"></div>
+              <div class="w-1.5 bg-brandGold rounded-full h-8 animate-pulse" style="animation-delay: 0.1s"></div>
+              <div class="w-1.5 bg-brandGold rounded-full h-5 animate-pulse" style="animation-delay: 0.2s"></div>
+              <div class="w-1.5 bg-brandGold rounded-full h-9 animate-pulse" style="animation-delay: 0.15s"></div>
+              <div class="w-1.5 bg-brandGold rounded-full h-4 animate-pulse" style="animation-delay: 0.25s"></div>
+              <div class="w-1.5 bg-brandGold rounded-full h-7 animate-pulse" style="animation-delay: 0.05s"></div>
+              <div class="w-1.5 bg-brandGold rounded-full h-10 animate-pulse" style="animation-delay: 0.3s"></div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <span class="text-[11px] font-mono text-zinc-300">3:24 • Lossless Stereo 320kbps</span>
+            </div>
+          </div>
+        `;
+      } else {
+        outputDisplay.innerHTML = `
+          <div class="w-full rounded-2xl bg-black border border-emerald-500/40 p-6 flex flex-col items-center justify-center relative overflow-hidden">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 border border-emerald-400 text-emerald-400 flex items-center justify-center text-3xl mb-3">
+              📴
+            </div>
+            <div class="text-xs uppercase tracking-widest text-emerald-400 font-mono font-bold mb-1">ОЛР: Локальный пакет готов</div>
+            <h4 class="font-display font-bold text-base text-white text-center max-w-md">Автономный инференс успешно завершён</h4>
+            <p class="text-xs text-zinc-400 mt-2">Сеть: 0 байт отправлено. Полная приватность.</p>
+          </div>
+        `;
+      }
+    }
+
+    function copyStudioPrompt() {
+      const text = document.getElementById('studioPromptInput').value;
+      copyToClipboardText(text);
+      showToast("Промпт студии скопирован!");
+    }
+
+    function handleSubscribe(plan) {
+      showNotice(`Тариф: ${plan}`, `Вы выбрали план «${plan}». DEMYAN AI активирует доступ ко всем 5 моделям, безлимитному чату, режиму ОЛР (Офлайн) и прямому подключению Gemini API без VPN!`, "fa-solid fa-bolt");
+    }
+  </script>
+</body>
+</html>
